@@ -1,0 +1,29 @@
+{{#if name}}
+Здравствуйте, {{name}}
+{{/if}}
+
+<nav>
+    <ul>
+        <li>
+            <a href="/">Главная</a>
+        </li>
+        {{#if name}}
+        <li>
+            <a href="/main">Your blog</a>
+        </li>
+        <li>
+            <a href="/auth/signout">Выйти</a>
+        </li>
+        {{else}}
+        <li>
+            <a href="/secret">photoBlog</a>
+        </li>
+        <li>
+            <a href="/auth/signup">Зарегистрироваться</a>
+        </li>
+        <li>
+            <a href="/auth/signin">Войти</a>
+        </li>
+        {{/if}}
+    </ul>
+</nav>

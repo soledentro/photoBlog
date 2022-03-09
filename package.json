@@ -15,7 +15,9 @@
     "eslint-plugin-import": "^2.25.4"
   },
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "express": "^4.17.3",
-    "hbs": "^4.2.0"
+    "hbs": "^4.2.0",
+    "nanoid": "^3.3.1"
   }
 }
