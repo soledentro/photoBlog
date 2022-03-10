@@ -15,7 +15,6 @@ const server = express()
 const PORT = 3000
 
 
-
 server.set('view engine', 'hbs')
 server.set('views', path.join(process.cwd(), 'src', 'views'))
 hbs.registerPartials(path.join(process.cwd(), 'src', 'views', 'partials'))
@@ -39,12 +38,12 @@ server.get('/auth/signup', (req, res) => {
   res.render('signUp')
 })
 
-const id = nanoid
+const idUser = nanoid
 server.post('/auth/signup', (req, res) => {
-  const {id, name, email, password} = req.body
+  const {idUser, name, email, password} = req.body
   
   usersDB.users.push({
-    id,
+    idUser,
     name,
     email,
     password,
@@ -53,7 +52,7 @@ server.post('/auth/signup', (req, res) => {
   const sid = Date.now()
 
   sessions[sid] = {
-    id,
+    idUser,
     email,
   }
 
@@ -79,7 +78,7 @@ server.post('/auth/signin', (req, res) => {
       const sid = Date.now()
 
       sessions[sid] = {
-        id,
+        idUser,
         email,
       }
     
@@ -93,9 +92,6 @@ server.post('/auth/signin', (req, res) => {
   res.redirect('/auth/signin')
 })
 
-// server.get('/secret', checkAuth, (req, res) => { 
-//   res.render('secret')
-// })
 server.get('/secret', (req, res) => { 
   res.render('secret')
 })
@@ -115,42 +111,18 @@ server.get('/', checkAuth, (req, res) => {
 
 })
 
-server.post('photobook', (req, res) => {
+
+server.get('/main', (req, res) => { 
+  res.render('main')
+})
+
+
+server.post('/photobook', (req, res) => {
   const newPost = req.body
   db.postsMessage.push(newPost)
 
   res.redirect('/')
 })
-
-
-// server.post('/auth/photobook', checkAuth, (req, res) => {
-//   const newPost = req.body
-//   db.postsMessage.push(newPost)
-
-//   res.redirect('main')
-// })
-
-
-// server.get('/auth/main', (req, res) => { 
-//   res.render('main')
-// })
-// // server.post('/auth/main', (req, res) => {
-// //   const newPost = req.body
-// //   db.postsMessage.push(newPost)
-
-// //   res.redirect('main')
-// // })
-
-
-server.get('/main', (req, res) => { 
-  res.render('main')
-})
-// // server.post('/main', (req, res) => {
-// //   const newPost = req.body
-// //   db.postsMessage.push(newPost)
-
-// //   res.redirect('main')
-// // })
 
 
 server.get('/auth/signout/', (req, res) => {
@@ -169,3 +141,26 @@ server.get('*', (req, res) => {
 server.listen(PORT, () => {
   console.log(`Server has been started on port: ${PORT}`)
 })
+
+
+// server.get('/secret', checkAuth, (req, res) => { 
+//   res.render('secret')
+// })
+
+// server.post('/auth/photobook', checkAuth, (req, res) => {
+//   const newPost = req.body
+//   db.postsMessage.push(newPost)
+
+//   res.redirect('main')
+// })
+
+
+// server.get('/auth/main', (req, res) => { 
+//   res.render('main')
+// })
+// // server.post('/auth/main', (req, res) => {
+// //   const newPost = req.body
+// //   db.postsMessage.push(newPost)
+
+// //   res.redirect('main')
+// // })
