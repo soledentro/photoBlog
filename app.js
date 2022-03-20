@@ -21,6 +21,8 @@ hbs.registerPartials(path.join(process.cwd(), 'src', 'views', 'partials'))
 
 server.use(express.urlencoded({extended: true}))
 server.use(cookieParser())
+server.use(express.static(path.join(process.cwd(), 'public')))
+server.use(express.json())
 server.use((req, res, next) => {
   const sidFromUser = req.cookies.sid
 
@@ -97,17 +99,23 @@ server.get('/secret', (req, res) => {
 })
 
 server.get('/', checkAuth, (req, res) => {
-  const postsQuery = req.query
 
-  let postsForRender = db.postsMessage
- 
-  if (postsQuery.limit !== undefined && Number.isNaN(+postsQuery.limit) === false) {
-    postsForRender = db.postsMessage.slice(0, postsQuery.limit)
-  } else if (postsQuery.reverse !== undefined) { //Работает криво
-    postsForRender = db.postsMessage.reverse()
-  }
+  // const currentUser = usersDB.users.find((user) => user.email === email)
+  // if (currentUser) {
+    const postsQuery = req.query
 
-  res.render('main', {listOfPosts: postsForRender})
+    let postsForRender = db.postsMessage
+  
+    if (postsQuery.limit !== undefined && Number.isNaN(+postsQuery.limit) === false) {
+      postsForRender = db.postsMessage.slice(0, postsQuery.limit)
+    } else if (postsQuery.reverse !== undefined) { //Работает криво
+      postsForRender = db.postsMessage.reverse()
+    }
+
+    return res.render('main', {listOfPosts: postsForRender})
+  // } else {
+  //   return res.render('/mainauto')
+  // }
 
 })
 
@@ -117,12 +125,58 @@ server.get('/main', (req, res) => {
 })
 
 
+// server.post('/photobook', (req, res) => {
+//   const newPost = req.body
+//   db.postsMessage.push(newPost)
+
+//   res.redirect('/')
+// })
+
+const idPost = nanoid
 server.post('/photobook', (req, res) => {
-  const newPost = req.body
-  db.postsMessage.push(newPost)
+  const {idUser, idPost, photo, post} = req.body
+  
+  db.postsMessage.push({
+    idUser,
+    idPost,
+    photo,
+    post,
+  })
 
   res.redirect('/')
 })
+
+server.delete('/photobook/:id', (req, res) => {
+  const currentId = usersDB.users.find((user) => user.idUser === id)
+
+    if (currentId) {
+      const { id } = req.body
+
+      const onePhotoIndex = db.postsMessage.findIndex((postsMessage) => postsMessage.idPost === id)
+      const onePhoto = db.postsMessage[onePhotoIndex]
+
+      if (onePhoto) {
+        if (onePhoto.idUser === currentId) {
+          db.postsMessage.splice(onePhotoIndex, 1)
+          res.sendStatus(200)
+        }
+        return res.sendStatus(403)
+      }
+    return res.sendStatus(401)
+  }
+})
+
+// server.patch('/photobook/:id', (req, res) => {
+//   const { id } = req.params
+//   const { action } = req.body
+
+//   if (action="delete") {
+//    onePhoto.remove()
+//   }
+
+//   res.json({})
+
+// })
 
 
 server.get('/auth/signout/', (req, res) => {

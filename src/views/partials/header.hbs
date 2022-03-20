@@ -1,8 +1,9 @@
 {{#if name}}
-Здравствуйте, {{name}}
+<h4 class="text-center" style="color: rgb(18, 56, 6);">Здравствуйте, {{name}}</h4>
 {{/if}}
 
 <nav>
+
     <ul>
         <li>
             <a href="/">Главная</a>
@@ -27,3 +28,19 @@
         {{/if}}
     </ul>
 </nav>
+{{!-- <nav>
+    <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/">Главная</a></li>
+        <li>
+            <hr class="dropdown-divider">
+        </li>
+        {{#if name}}
+        <li><a class="dropdown-item" href="/main">Добавить фото</a></li>
+        <li><a class="dropdown-item" href="/auth/signout">Выйти</a></li>
+        {{else}}
+        <li><a class="dropdown-item" href="/secret">photoBlog</a></li>
+        <li><a class="dropdown-item" href="/auth/signup">Зарегистрироваться</a></li>
+        <li><a class="dropdown-item" href="/auth/signin">Войти</a></li>
+        {{/if}}
+    </ul>
+</nav> --}}

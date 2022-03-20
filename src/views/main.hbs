@@ -15,15 +15,15 @@
 
 <hr />
 
-<div class="continer row">
+<div data-post class="continer row">
     {{#each listOfPosts}}
-    <div class="col-sm-4 mb-4" style="border-radius: 10px;">
+    <div data-id="{{this.idPost}}" class="col-sm-4 mb-4" style="border-radius: 10px;">
         <img src="{{this.photo}}" class="photo" style="width: 300px; border-radius: 10px; object-fit: cover"
             alt="photo" />
         <div class="card-body text-left" style="width: 300px; overflow-y: auto">
             <p class="card-text">{{this.post}}</p>
         </div>
-        <button type="button" class="btn btn-outline-danger btn-sm float: right">Удалить</button>
+        <button data-action="delete" type="button" class="btn btn-outline-danger btn-sm float: right">Удалить</button>
         {{!-- не удалось сделать текст максимально слева от края, а кнопку "удалить" справа внизу --}}
     </div>
     {{/each}}
