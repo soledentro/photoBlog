@@ -23,8 +23,8 @@
         <div class="card-body text-left" style="width: 300px; overflow-y: auto">
             <p class="card-text">{{this.post}}</p>
         </div>
-        <button data-action="delete" type="button" class="btn btn-outline-danger btn-sm float: right">Удалить</button>
-        {{!-- не удалось сделать текст максимально слева от края, а кнопку "удалить" справа внизу --}}
+        <button data-action={{this.idPost}} type="button"
+            class="btn btn-outline-danger btn-sm float: right">Удалить</button>
     </div>
     {{/each}}
 </div>
